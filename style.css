@@ -83,6 +83,10 @@ h1 {
   padding: 22px;
 }
 
+.notes-panel {
+  padding: 22px 18px;
+}
+
 .calendar-panel {
   padding: 22px 18px 16px;
 }
@@ -101,6 +105,45 @@ h1 {
   font-size: 1.25rem;
 }
 
+.task-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.task-form input,
+#notes-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.96rem;
+  background: #fff;
+  color: var(--text);
+}
+
+.task-form button,
+.save-btn {
+  border: none;
+  background: var(--primary);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#notes-input {
+  margin-top: 18px;
+  resize: vertical;
+  min-height: 140px;
+}
+
+.save-btn {
+  margin-top: 12px;
+  width: 100%;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -111,53 +154,6 @@ h1 {
   padding: 7px 12px;
   font-size: 0.8rem;
   font-weight: 700;
-}
-
-.task-form {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) 150px auto;
-  gap: 10px;
-  margin-top: 16px;
-  margin-bottom: 18px;
-}
-
-.task-form input,
-.task-form select,
-.notes-box textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  background: #fff;
-  color: var(--text);
-}
-
-.task-form button,
-.notes-box button {
-  border: none;
-  border-radius: 10px;
-  background: var(--primary);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 10px 14px;
-}
-
-.notes-box {
-  margin-bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.notes-box label {
-  font-weight: 700;
-  color: var(--text);
-}
-
-.notes-box textarea {
-  resize: vertical;
-  min-height: 90px;
 }
 
 .table-wrap {

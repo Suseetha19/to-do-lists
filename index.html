@@ -28,20 +28,9 @@
           </div>
 
           <form id="task-form" class="task-form">
-            <input id="new-task-input" type="text" placeholder="Add a new task" maxlength="150" />
-            <select id="new-task-frequency" aria-label="Select task frequency">
-              <option value="Daily">Daily</option>
-              <option value="Weekly">Weekly</option>
-              <option value="Monthly">Monthly</option>
-            </select>
+            <input id="new-task-input" type="text" placeholder="Add new task" maxlength="200" />
             <button type="submit">Add Task</button>
           </form>
-
-          <div class="notes-box">
-            <label for="notes-area">Notes</label>
-            <textarea id="notes-area" rows="4" placeholder="Type your message here..."></textarea>
-            <button id="save-notes-btn" type="button">Save Notes</button>
-          </div>
 
           <div class="table-wrap">
             <table>
@@ -56,6 +45,15 @@
             </table>
           </div>
         </section>
+
+        <aside class="panel notes-panel">
+          <div class="panel-header">
+            <h2>Notes</h2>
+          </div>
+
+          <textarea id="notes-input" rows="10" placeholder="Write your message here..."></textarea>
+          <button id="save-notes-btn" class="save-btn" type="button">Save Notes</button>
+        </aside>
 
         <aside class="panel calendar-panel">
           <div class="calendar-header">
