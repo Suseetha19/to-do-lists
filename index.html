@@ -27,6 +27,22 @@
             <span class="pill" id="summary-pill">0 completed</span>
           </div>
 
+          <form id="task-form" class="task-form">
+            <input id="new-task-input" type="text" placeholder="Add a new task" maxlength="150" />
+            <select id="new-task-frequency" aria-label="Select task frequency">
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+            </select>
+            <button type="submit">Add Task</button>
+          </form>
+
+          <div class="notes-box">
+            <label for="notes-area">Notes</label>
+            <textarea id="notes-area" rows="4" placeholder="Type your message here..."></textarea>
+            <button id="save-notes-btn" type="button">Save Notes</button>
+          </div>
+
           <div class="table-wrap">
             <table>
               <thead>

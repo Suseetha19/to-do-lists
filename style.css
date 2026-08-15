@@ -113,6 +113,53 @@ h1 {
   font-weight: 700;
 }
 
+.task-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) 150px auto;
+  gap: 10px;
+  margin-top: 16px;
+  margin-bottom: 18px;
+}
+
+.task-form input,
+.task-form select,
+.notes-box textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+}
+
+.task-form button,
+.notes-box button {
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 10px 14px;
+}
+
+.notes-box {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notes-box label {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.notes-box textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
 .table-wrap {
   margin-top: 18px;
   overflow-x: auto;
