@@ -191,6 +191,7 @@ function renderTable() {
   tasks.forEach((item) => {
     const isCompleted = getTaskStatus(item.id, selectedDate);
     const isLocked = !isEditableDate(selectedDate) || isCompleted;
+    const isCustomTask = item.id > 1000000000000 || item.description === 'New custom task added by the user.';
     const row = document.createElement('tr');
 
     row.innerHTML = `
@@ -220,7 +221,7 @@ function renderTable() {
                   : 'Pending'
             }
           </span>
-          <button class="delete-task-btn" type="button" data-id="${item.id}">Delete</button>
+          ${isCustomTask ? `<button class="delete-task-btn" type="button" data-id="${item.id}">Delete</button>` : ''}
         </div>
       </td>
     `;
@@ -281,7 +282,7 @@ function addTask(taskText, frequency) {
   if (!cleanedText) return;
 
   const newTask = {
-    id: Date.now(),
+    id: Date.now() + 1000000000000,
     task: cleanedText,
     frequency: frequency || 'Daily',
     description: 'New custom task added by the user.'
