@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Marketing To-Do List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Marketing Planner</p>
+          <h1>Digital Marketing To-Do List</h1>
+        </div>
+      </header>
+
+      <main class="content-grid">
+        <section class="panel tasks-panel">
+          <div class="panel-header">
+            <h2>Tasks</h2>
+            <span class="pill" id="summary-pill">0 completed</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Frequency</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="task-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="panel calendar-panel">
+          <div class="calendar-header">
+            <button id="prev-month" class="nav-btn" aria-label="Previous month">&#8249;</button>
+            <h2 id="calendar-month">Month</h2>
+            <button id="next-month" class="nav-btn" aria-label="Next month">&#8250;</button>
+          </div>
+
+          <div class="weekday-row">
+            <span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+          </div>
+          <div id="calendar-grid" class="calendar-grid"></div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
