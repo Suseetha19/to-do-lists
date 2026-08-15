@@ -56,11 +56,13 @@ const initialTasks = [
 ];
 
 const storageKey = 'digital-marketing-to-do';
-const notesKey = 'digital-marketing-notes';
+const notesKeyPrefix = 'digital-marketing-note-';
+const statusStorageKey = 'digital-marketing-to-do-status';
 const tableBody = document.getElementById('task-table-body');
 const summaryPill = document.getElementById('summary-pill');
 const taskForm = document.getElementById('task-form');
 const newTaskInput = document.getElementById('new-task-input');
+const newTaskFrequency = document.getElementById('new-task-frequency');
 const notesInput = document.getElementById('notes-input');
 const saveNotesBtn = document.getElementById('save-notes-btn');
 const today = new Date();
@@ -86,15 +88,32 @@ function saveStoredTasks() {
   localStorage.setItem(storageKey, JSON.stringify(tasks));
 }
 
-function loadNotes() {
-  const saved = localStorage.getItem(notesKey);
-  if (saved) {
-    notesInput.value = saved;
-  }
+function getNoteKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${notesKeyPrefix}${year}-${month}-${day}`;
+}
+
+function getNoteValue(date) {
+  return localStorage.getItem(getNoteKey(date)) || '';
+}
+
+function saveNoteValue(date, value) {
+  localStorage.setItem(getNoteKey(date), value);
+}
+
+function renderNotesForSelectedDate() {
+  const editable = isEditableDate(selectedDate);
+  notesInput.disabled = !editable;
+  notesInput.value = getNoteValue(selectedDate);
+  saveNotesBtn.disabled = !editable;
+  saveNotesBtn.textContent = editable ? 'Save Notes' : 'View Only';
 }
 
 function saveNotes() {
-  localStorage.setItem(notesKey, notesInput.value);
+  if (!isEditableDate(selectedDate)) return;
+  saveNoteValue(selectedDate, notesInput.value);
   saveNotesBtn.textContent = 'Saved';
   setTimeout(() => {
     saveNotesBtn.textContent = 'Save Notes';
@@ -102,11 +121,10 @@ function saveNotes() {
 }
 
 loadStoredTasks();
-loadNotes();
 
 function getCompletionData() {
   try {
-    const saved = localStorage.getItem(`${storageKey}-status`);
+    const saved = localStorage.getItem(statusStorageKey);
     return saved ? JSON.parse(saved) : {};
   } catch (error) {
     return {};
@@ -116,7 +134,7 @@ function getCompletionData() {
 let completionData = getCompletionData();
 
 function saveCompletionData() {
-  localStorage.setItem(`${storageKey}-status`, JSON.stringify(completionData));
+  localStorage.setItem(statusStorageKey, JSON.stringify(completionData));
 }
 
 function getDateKey(date) {
@@ -181,7 +199,7 @@ function renderTable() {
         <div class="task-description">${item.description}</div>
       </td>
       <td>
-        <span class="frequency-badge daily">${item.frequency}</span>
+        <span class="frequency-badge ${item.frequency.toLowerCase()}">${item.frequency}</span>
       </td>
       <td>
         <div class="status-cell">
@@ -202,6 +220,7 @@ function renderTable() {
                   : 'Pending'
             }
           </span>
+          <button class="delete-task-btn" type="button" data-id="${item.id}">Delete</button>
         </div>
       </td>
     `;
@@ -227,6 +246,17 @@ function renderTable() {
       renderCalendar(currentDate);
     });
   });
+
+  document.querySelectorAll('.delete-task-btn').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const taskId = Number(event.target.dataset.id);
+      tasks = tasks.filter((task) => task.id !== taskId);
+      removeTaskStatus(taskId);
+      saveStoredTasks();
+      renderTable();
+      renderCalendar(currentDate);
+    });
+  });
 }
 
 const calendarMonth = document.getElementById('calendar-month');
@@ -234,14 +264,26 @@ const calendarGrid = document.getElementById('calendar-grid');
 const prevMonthBtn = document.getElementById('prev-month');
 const nextMonthBtn = document.getElementById('next-month');
 
-function addTask(taskText) {
+function removeTaskStatus(taskId) {
+  Object.keys(completionData).forEach((dateKey) => {
+    if (completionData[dateKey] && completionData[dateKey][taskId] !== undefined) {
+      delete completionData[dateKey][taskId];
+      if (Object.keys(completionData[dateKey]).length === 0) {
+        delete completionData[dateKey];
+      }
+    }
+  });
+  saveCompletionData();
+}
+
+function addTask(taskText, frequency) {
   const cleanedText = taskText.trim();
   if (!cleanedText) return;
 
   const newTask = {
     id: Date.now(),
     task: cleanedText,
-    frequency: 'Daily',
+    frequency: frequency || 'Daily',
     description: 'New custom task added by the user.'
   };
 
@@ -255,8 +297,9 @@ saveNotesBtn.addEventListener('click', saveNotes);
 
 taskForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  addTask(newTaskInput.value);
+  addTask(newTaskInput.value, newTaskFrequency.value);
   newTaskInput.value = '';
+  newTaskFrequency.value = 'Daily';
 });
 
 function renderCalendar(date) {
@@ -300,6 +343,7 @@ function renderCalendar(date) {
 
     dayCell.addEventListener('click', () => {
       selectedDate = new Date(year, month, day);
+      renderNotesForSelectedDate();
       renderTable();
       renderCalendar(date);
     });
@@ -328,5 +372,6 @@ nextMonthBtn.addEventListener('click', () => {
   renderCalendar(currentDate);
 });
 
+renderNotesForSelectedDate();
 renderTable();
 renderCalendar(currentDate);
